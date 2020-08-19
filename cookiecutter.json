@@ -1,0 +1,5 @@
+{
+    "microservice_name": "session-aggregation-engine",
+    "type": "engine",
+    "version": 1.0
+}

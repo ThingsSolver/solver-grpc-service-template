@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  solver-{{cookiecutter.microservice_name}}-develop:
+    build:
+      context: ""
+    restart: always
+    container_name: solver-{{cookiecutter.microservice_name}}-{{cookiecutter.type}}
+    command: sh ./run_server.sh
+    ports:
+      - 8080:8080
+    networks:
+      - solver_develop
+    environment:
+      YOUR_ENV: ${YOUR_ENV}
+networks:
+  solver_develop:
+    external: true

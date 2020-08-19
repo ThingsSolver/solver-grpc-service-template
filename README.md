@@ -1,4 +1,4 @@
-# Solver Microservice Template
+# Solver Microservice Template for gRPC
 
 
 ### Installl 
@@ -8,7 +8,7 @@ pip install cookiecutter
 
 ```
 
-## REST API
+## gRPC
 ### Run comand inside folder that you want 
 
 ```

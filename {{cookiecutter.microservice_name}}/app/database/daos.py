@@ -1,6 +1,6 @@
 # Database access object
 # Here we work with db object but business logic should be in services.py
-from app.database.db import ExampleDB
+from database.db import ExampleDB
 
 
 class ExampleQuery:

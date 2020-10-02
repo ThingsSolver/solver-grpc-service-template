@@ -11,6 +11,9 @@ services:
     networks:
       - solver_develop
     environment:
+      MAX_WORKERS: ${MAX_WORKERS}
+      SESSION_AGG_SERVER_HOST: ${SESSION_AGG_SERVER_HOST}
+      SESSION_AGG_SERVER_PORT: ${SESSION_AGG_SERVER_PORT}
       YOUR_ENV: ${YOUR_ENV}
 networks:
   solver_develop:

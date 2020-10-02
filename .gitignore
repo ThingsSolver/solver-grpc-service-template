@@ -1,1 +1,5 @@
 .DS_STORE
+*_pb2_*
+*_pb2.*
+.idea
+.env

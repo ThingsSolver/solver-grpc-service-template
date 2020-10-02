@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
-echo Starting Gunicorn.
+echo "--- Generate code ..."
+cd /app/grpc_server
+python proto_code_gen.py
 
-exec gunicorn -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8080 --workers 10
+
+cd ..
+echo "--- Starting server..."
+
+exec python main.py

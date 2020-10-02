@@ -13,5 +13,6 @@ class InteractionService(demo_pb2_grpc.DemoServicer):
         for message in request_iterator:
             msg = msgpack.unpackb(message.message, raw=False)
             message_transformed = Basic().get_data(self.c, msg)
-            packed_open_session = msgpack.packb(message_transformed, use_bin_type=True)
+            packed_open_session = msgpack.packb(message_transformed,
+                                                use_bin_type=True)
             yield demo_pb2.Message(message=packed_open_session)

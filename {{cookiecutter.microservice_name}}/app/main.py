@@ -1,39 +1,23 @@
-import uvicorn
-import time
-from uuid import uuid4
-from fastapi import FastAPI, Request
-from fastapi.middleware.cors import CORSMiddleware
-from app.utils.logger import AppLogger
-from app.routers.routes import api
-
-app = FastAPI()
-
-log = AppLogger('main').logger
+import os
+from concurrent import futures
+import grpc
+from interactions.interactions import InteractionService
+import logging
+from protos import demo_pb2_grpc
+from protos import demo_pb2
 
 
-@app.middleware("http")
-async def add_process_time_header(request: Request, call_next):
-    rid = "UID-" + str(uuid4())
-    log.info(f"rid={rid} start request path={request.url.path}")
-    start_time = time.time()
-    response = await call_next(request)
-    process_time = time.time() - start_time
-    formatted_process_time = '{0:.2f}'.format(process_time)
-    log.info(f"rid={rid} completed_in={formatted_process_time}ms status_code={response.status_code}")
-    response.headers["X-Process-Time"] = str(process_time)
-    return response
+def run_server():
+    server = grpc.server(
+        futures.ThreadPoolExecutor(int(os.environ.get('MAX_WORKERS'))))
+    demo_pb2_grpc.add_DemoServicer_to_server(InteractionService(), server)
+    server.add_insecure_port('%s:%d' % (os.environ.get('DEMO_SERVER_HOST'),
+                                        int(os.environ.get(
+                                            'DEMO_SERVER_PORT'))))
+    server.start()
+    server.wait_for_termination()
 
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-app.include_router(api)
-
-if __name__ == "__main__":
-    uvicorn.run(app, port=8080, log_level="info")
+if __name__ == '__main__':
+    logging.basicConfig()
+    run_server()

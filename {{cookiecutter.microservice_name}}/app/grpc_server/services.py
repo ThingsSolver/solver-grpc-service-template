@@ -1,5 +1,5 @@
 # Business logic, please delete example
-from app.database.daos import ExampleQuery
+from database.daos import ExampleQuery
 
 
 class Basic:
